@@ -5,17 +5,16 @@
     <title>Title</title>
 </head>
 <body>
+    <h1>esse é meu sistema web</h1>
     <div>
-      <h1>Diga uma mensagem</h1>
-
+        <form action="/fazerlogin" method="post">
+            <input type="text" name="loginusuario" placeholder="digite seu login">
+            <br>
+            <input type="password" name="senhausuario" placeholder="digite sua senha">
+            <br>
+            <button type="submit" >Fazer login</button>
+        </form>
+        <p>{{texto}}</p>
     </div>
-    <hr>
-    <form action="/enviar" method="post">
-      <input type="text" name="login" placeholder="digite seu login">
-      <br>
-      <input type="password" name="senha" placeholder="digite sua senha">
-      <button type="submit">Enviar</button>
-    </form>
-
 </body>
 </html>
