@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>cadastrar usuário</h1>
+    <form action="/cadastrar" method="post">
+        <input type="text" name="nomeuser" placeholder="digite seu nome"><br>
+        <input type="text" name="email" placeholder="digite seu email"><br>
+        <input type="password" id="senha" name="senha" placeholder="digite sua senha"><br>
+        <span id="errosenha"></span>
+        <input type="password" id="confirmacao" name="confirmacao" placeholder="repita sua senha"><br>
+
+        <button type="button" onclick="verificar_senha()" id="idbotao" >Cadastrar</button>
+    </form>
+    <p>{{msg}}</p>
+    <script src="../static/script.js"></script>
+
+</body>
+</html>

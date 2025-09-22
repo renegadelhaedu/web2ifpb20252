@@ -18,4 +18,4 @@ def receber_mensagem():
 
 
 
-app.run(host='0.0.0.0', port=80)
+app.run( port=80)
