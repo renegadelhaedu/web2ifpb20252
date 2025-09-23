@@ -3,7 +3,7 @@ from utils.acesso import *
 
 #INSTANCIANDO O OBJETO DO SERVIDOR FLASK
 app = Flask(__name__)
-usuarios = [['diego','d@d','123']]
+usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123']]
 
 
 
@@ -43,6 +43,31 @@ def cadastrar():
         msg = 'a senha e a confirmação de senha não são iguais'
         return render_template('paginacadastro.html', msg=msg)
 
+
+@app.route('/listar')
+def listar_usuarios():
+    return render_template('listar.html',usuarios=usuarios)
+
+@app.route('/detalhes')
+def mostrar_detalhes():
+    email = request.values.get('email')
+    usuario = buscar_usuario(usuarios, email) #simulando um banco de dados
+
+    if usuario:
+        return render_template('detalhes.html', usuario=usuario)
+    msg = 'usuário nao encontrado'
+    return render_template('mensagemerro.html', msg=msg)
+
+#end-point ou route (rota)
+@app.route('/dados')
+def pegar_dados():
+    id = request.values.get('id')
+    nome_user = request.values.get('nome')
+    if id:
+        print(id)
+    if nome_user:
+        print(nome_user)
+    return 'deu cerrtooo'
 
 @app.route('/logout')
 def fazer_logout():

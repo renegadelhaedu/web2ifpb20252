@@ -4,3 +4,11 @@ def verificar_login(lista, email, senha):
             return True
 
     return False
+
+
+def buscar_usuario(lista, email):
+    for usuario in lista:
+        if usuario[1] == email:
+            return usuario
+
+    return None

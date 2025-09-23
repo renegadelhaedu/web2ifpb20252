@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Meus usuários cadastrados</h1>
+
+    {% for user in usuarios %}
+        <p>
+            Nome: <a href="/detalhes?email={{user[1]}}" target="_blank">{{user[0]}}</a>
+        </p>
+        <hr>
+
+    {% endfor %}
+
+</body>
+</html>
