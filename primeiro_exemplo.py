@@ -3,21 +3,27 @@ from utils.acesso import *
 
 #INSTANCIANDO O OBJETO DO SERVIDOR FLASK
 app = Flask(__name__)
-usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123']]
+app.secret_key = 'HGF431kSD&'
 
+
+usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123']]
 
 
 @app.route('/')
 def abrir_home_page():
     return render_template('index.html')
 
-@app.route('/fazerlogin', methods=['POST'])
+@app.route('/fazerlogin', methods=['POST', 'GET'])
 def fazer_login():
+
+    if request.method == 'GET' and 'login' in session:
+        return render_template('logado.html')
 
     login = request.form.get('loginusuario')
     senha = request.form.get('senhausuario')
 
     if verificar_login(usuarios, login, senha):
+        session['login'] = login
         return render_template('logado.html')
     else:
         #aqui o usuario digitou o login ou senha errado
@@ -46,10 +52,15 @@ def cadastrar():
 
 @app.route('/listar')
 def listar_usuarios():
-    return render_template('listar.html',usuarios=usuarios)
+    if 'login' in session:
+        print(session['login'])
+        return render_template('listar.html',usuarios=usuarios)
+    else:
+        return render_template('index.html')
 
 @app.route('/detalhes')
 def mostrar_detalhes():
+
     email = request.values.get('email')
     usuario = buscar_usuario(usuarios, email) #simulando um banco de dados
 
