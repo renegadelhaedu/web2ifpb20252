@@ -1,13 +1,13 @@
 from flask import *
 from utils.acesso import *
-
+from blueprints.produto_bp import produto_bp
 #INSTANCIANDO O OBJETO DO SERVIDOR FLASK
 app = Flask(__name__)
 app.secret_key = 'HGF431kSD&'
 
+app.register_blueprint(produto_bp)
 
-usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123']]
-
+usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123'],['camila','camila@jesus.com','123']]
 
 @app.route('/')
 def abrir_home_page():
@@ -80,8 +80,11 @@ def pegar_dados():
         print(nome_user)
     return 'deu cerrtooo'
 
+
 @app.route('/logout')
 def fazer_logout():
+    #limpo o objeto session (dicionário)
+    session.clear()
     return render_template('index.html')
 
 #EXECUTANDO O SERVIDOR

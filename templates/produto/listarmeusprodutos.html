@@ -5,14 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>Meus usuários cadastrados</h1>
 
-    {% for user in usuarios %}
+    <h1>estes sao meus produtos</h1>
+    <hr>
+    {% for produto in lista %}
+
         <p>
-            Nome: <a href="/detalhes?email={{user[1]}}" target="_blank">{{user[0]}}</a>
+            <a>Nome:{{produto[0]}}  Preço:{{produto[1]}} Descrição:{{produto[2]}}</a>
         </p>
         <hr>
     {% endfor %}
+
 
 </body>
 </html>
