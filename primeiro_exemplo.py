@@ -1,13 +1,25 @@
 from flask import *
 from utils.acesso import *
 from blueprints.produto_bp import produto_bp
+from dao.banco import init_db, Session
+from dao.usuarioDAO import *
+
 #INSTANCIANDO O OBJETO DO SERVIDOR FLASK
 app = Flask(__name__)
 app.secret_key = 'HGF431kSD&'
 
 app.register_blueprint(produto_bp)
+init_db()
 
 usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123'],['camila','camila@jesus.com','123']]
+
+@app.before_request
+def pegar_sessao():
+    g.session = Session()
+
+@app.teardown_appcontext
+def encerrar_sessao(exception=None):
+    Session.remove()
 
 @app.route('/')
 def abrir_home_page():
@@ -22,7 +34,12 @@ def fazer_login():
     login = request.form.get('loginusuario')
     senha = request.form.get('senhausuario')
 
-    if verificar_login(usuarios, login, senha):
+    usuario_dao = UsuarioDAO(g.session)
+
+    #if verificar_login(usuarios, login, senha):
+    usuario = usuario_dao.autenticar(login, senha)
+    if usuario:
+        print(usuario)
         session['login'] = login
         return render_template('logado.html')
     else:
@@ -36,14 +53,16 @@ def cadastrar():
     if request.method == 'GET':
         return render_template('paginacadastro.html')
 
+    usuario_dao = UsuarioDAO(g.session)
     nome = request.form.get('nomeuser')
     email = request.form.get('email')
     senha = request.form.get('senha')
     confirma = request.form.get('confirmacao')
 
     if senha == confirma:
-        global usuarios
-        usuarios.append([nome, email, senha])
+        #global usuarios
+        #usuarios.append([nome, email, senha])
+        usuario_dao.criar(Usuario(email=email, nome=nome, senha=senha))
         return render_template('index.html')
     else:
         msg = 'a senha e a confirmação de senha não são iguais'
