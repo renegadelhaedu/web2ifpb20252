@@ -8,10 +8,11 @@ from dao.usuarioDAO import *
 app = Flask(__name__)
 app.secret_key = 'HGF431kSD&'
 
-app.register_blueprint(produto_bp)
-init_db()
+usuarios = None
 
-usuarios = [['diego','d@d','123'],['mariany','m@m','123'],['jose','j@j','123'],['rene','r@r','123'],['camila','camila@jesus.com','123']]
+app.register_blueprint(produto_bp)
+#criando a estrutura do banco de dados, caso nao tenha sido criado antes
+#init_db()
 
 @app.before_request
 def pegar_sessao():
@@ -54,15 +55,15 @@ def cadastrar():
         return render_template('paginacadastro.html')
 
     usuario_dao = UsuarioDAO(g.session)
+
     nome = request.form.get('nomeuser')
     email = request.form.get('email')
     senha = request.form.get('senha')
     confirma = request.form.get('confirmacao')
 
     if senha == confirma:
-        #global usuarios
-        #usuarios.append([nome, email, senha])
-        usuario_dao.criar(Usuario(email=email, nome=nome, senha=senha))
+        novo_usuario = Usuario(email=email, nome=nome, senha=senha)
+        usuario_dao.criar(novo_usuario)
         return render_template('index.html')
     else:
         msg = 'a senha e a confirmação de senha não são iguais'
@@ -72,8 +73,12 @@ def cadastrar():
 @app.route('/listar')
 def listar_usuarios():
     if 'login' in session:
-        print(session['login'])
-        return render_template('listar.html',usuarios=usuarios)
+
+        usuarioDAO = UsuarioDAO(g.session)
+
+        usuarios_lista = usuarioDAO.listar_usuarios()
+
+        return render_template('listar.html',usuarios=usuarios_lista)
     else:
         return render_template('index.html')
 

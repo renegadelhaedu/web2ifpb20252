@@ -9,7 +9,7 @@
 
     {% for user in usuarios %}
         <p>
-            Nome: <a href="/detalhes?email={{user[1]}}" target="_blank">{{user[0]}}</a>
+            Nome: <a href="/detalhes?email={{user.email}}" target="_blank">{{user.nome}}</a>
         </p>
         <hr>
     {% endfor %}
